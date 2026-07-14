@@ -29,6 +29,15 @@ function LoginPage() {
     navigate("/dashboard");
 }
   }
+  async function handleGoogleLogin() {
+    const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+            redirectTo: 'http://localhost:5173/dashboard'
+        }
+    })
+    if(error) setCurrentError(error.message)
+}
   function emailState(event)
   {
     setCurrentEmail(event.target.value);
@@ -77,7 +86,7 @@ function LoginPage() {
 
         <hr/>
 
-        <button className="border border-gray-400 text-black py-2 w-full rounded-xl">
+        <button onClick={handleGoogleLogin} className="border border-gray-400 text-black py-2 w-full rounded-xl">
           GOOGLE SIGN IN
         </button>
         <div className="flex justify-center mt-2">

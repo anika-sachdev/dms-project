@@ -1,7 +1,7 @@
     import {useNavigate, useParams} from 'react-router-dom';
     import {useState,useEffect} from "react";
     import { supabase } from '../lib/supabase';
-    import { File, Mail, Phone, User, ArrowRight } from 'lucide-react'
+    import { File, Mail, Phone, User, ArrowRight,Eye,Download} from 'lucide-react'
 
     function ClientPage()
     {
@@ -63,12 +63,43 @@
                 <File size={20} className="text-gray-400"/>
                 <p className="text-gray-500 text-xl font-bold">Documents</p>
             </div>
+            <div>
+            </div>
             <button onClick={() => navigate(`/upload/${id}`)} className="bg-blue-300 text-white px-4 py-2 rounded-xl hover:bg-blue-400">
                 + Upload Document
             </button>
         </div>
-
-        <div className="grid grid-cols-3 gap-4 px-6"></div>
+            {documents.length==0?
+            (<div className="flex flex-col items-center justify-center p-12 text-gray-400">
+        <File size={40} />
+        <p className="mt-2">No documents uploaded yet</p>
+    </div>):(
+        <div className="grid grid-cols-3 gap-4 px-6">
+        {documents.map((doc)=>
+                (
+                    <div key={doc.id} className="bg-blue-100 w-80 h-46 p-6 m-8 border-gray-500 shadow-md rounded-xl flex flex-col">
+                        <p className="text-xl text-gray-600 font-bold">{doc.doc_type}</p>
+                        <div className="flex gap-2 pt-2 items-center">
+                            <p className="text-gray-500 truncate">Document Name: {doc.doc_name}</p>
+                        </div>
+                        <div className="flex gap-2 pt-2 items-center">
+                            <p className="text-gray-500">Document Number: {doc.doc_number?doc.doc_number:"NA"}</p>
+                        </div>
+                        <hr className="border-gray-300 mt-3" />
+                        <div className="flex justify-between ml-4 mr-4 gap-2 pt-2 text-gray-500 text-sm">
+                            <div className=" flex items-center gap-3">
+                            <Eye size={16} />
+                                <a href={doc.file_url} className="text-gray-500 hover:text-blue-500 cursor-pointer justify-end" target="_blank">View</a>
+                            </div>
+                            <div className=" flex items-center gap-3"> 
+                            <Download size={16} />
+                                <a href={doc.file_url} className="text-gray-500 hover:text-blue-500 cursor-pointer justify-end" target="_blank" download>Download</a>
+                                </div>
+                        </div>
+                    </div>
+                ))}
+                </div>
+    )}
     </div>
 );
     }
