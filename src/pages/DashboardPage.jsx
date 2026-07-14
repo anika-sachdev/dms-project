@@ -73,7 +73,7 @@
                         <div className="flex justify-between gap-2 pt-2 text-gray-500 text-sm">
                             <p>4 documents</p>
                             <div className="flex items-center gap-1">
-                            <p className="text-gray-500 hover:text-blue-500 cursor-pointer justify-end">View</p>
+                            <p onClick={() => navigate(`/client/${member.id}`)} className="text-gray-500 hover:text-blue-500 cursor-pointer justify-end">View</p>
                             <ArrowRight size={16} className="text-gray-400 mt-1" />
                             </div>
                         </div>

@@ -50,3 +50,6 @@ function AddClientPage() {
     );
 }
 export default AddClientPage;
+// So basically, when we click view on a certain member's card, it goes to the URL client/id (the id we already fetched when fetching members) of the member from the database. 
+//       This URL will show us the Client Page where we will fetch the documents of the client by first getting the id from the URL 
+//       and then telling supabase to fetch those documents for that member_id.
