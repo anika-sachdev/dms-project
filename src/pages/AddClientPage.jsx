@@ -30,24 +30,30 @@ function AddClientPage() {
         }
     }
     
-    return(
-        <div>
-            <h1 className=" text-gray-500 text-2xl font-bold p-4 text-center">ADD CLIENT</h1>
-            <div className="bg-blue-100 flex flex-col justify-center w-3/4 h-full m-auto p-4 rounded-sm shadow-md">
-            <label className="text-gray-500 font-bold px-3">Name:</label>
-                <input type="text" placeholder="Enter your name" className="bg-white w-220 m-2 px-3 py-1 outline-none rounded-sm" value={name} onChange={(e) => setName(e.target.value)}></input>
-                <label className="text-gray-500 font-bold px-3 mt-4">Age:</label>
-                <input type="text" placeholder="Enter your age" className="bg-white w-220 m-2 px-3 py-1 outline-none rounded-sm" value={age} onChange={(e) => setAge(e.target.value)}></input>
-                <label className="text-gray-500 font-bold px-3 mt-4">Email:</label>
-                <input type="text" placeholder="Enter your email" className="bg-white w-220 m-2 px-3 py-1 outline-none rounded-sm" value={email} onChange={(e) => setEmail(e.target.value)}></input>
-            <label className="text-gray-500 font-bold px-3 mt-4">Phone Number:</label>
-                <input type="text" placeholder="Enter your phone number" className="bg-white w-220 m-2 px-3 py-1 outline-none rounded-sm" value={phone} onChange={(e) => setPhone(e.target.value)}></input>
-                <div className="flex justify-center">
-            <button onClick={submitData} className="bg-blue-300 text-white py-2 px-4 rounded-xl w-60 hover:bg-blue-400 m-7">Submit</button>
-            </div>
-            </div>
+    return (
+    <div className="min-h-screen bg-gray-50">
+        <div className="bg-white border-b border-gray-200 shadow-sm px-8 py-4">
+            <h1 className="text-2xl font-bold text-gray-700">Add Client</h1>
         </div>
-    );
+        <div className="bg-white border border-gray-200 flex flex-col w-2/4 m-auto mt-8 p-8 rounded-xl shadow-sm gap-4">
+            <label className="text-gray-600 font-medium text-sm">Name:</label>
+            <input type="text" placeholder="Enter client name" className="bg-gray-50 border border-gray-200 px-3 py-2 outline-none rounded-lg text-gray-700 focus:border-teal-500" value={name} onChange={(e) => setName(e.target.value)}/>
+
+            <label className="text-gray-600 font-medium text-sm">Age:</label>
+            <input type="text" placeholder="Enter client age" className="bg-gray-50 border border-gray-200 px-3 py-2 outline-none rounded-lg text-gray-700 focus:border-teal-500" value={age} onChange={(e) => setAge(e.target.value)}/>
+
+            <label className="text-gray-600 font-medium text-sm">Email:</label>
+            <input type="text" placeholder="Enter client email" className="bg-gray-50 border border-gray-200 px-3 py-2 outline-none rounded-lg text-gray-700 focus:border-teal-500" value={email} onChange={(e) => setEmail(e.target.value)}/>
+
+            <label className="text-gray-600 font-medium text-sm">Phone Number:</label>
+            <input type="text" placeholder="Enter client phone number" className="bg-gray-50 border border-gray-200 px-3 py-2 outline-none rounded-lg text-gray-700 focus:border-teal-500" value={phone} onChange={(e) => setPhone(e.target.value)}/>
+
+            <button onClick={submitData} className="bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 font-medium mt-2">
+                Submit
+            </button>
+        </div>
+    </div>
+)
 }
 export default AddClientPage;
 // So basically, when we click view on a certain member's card, it goes to the URL client/id (the id we already fetched when fetching members) of the member from the database. 

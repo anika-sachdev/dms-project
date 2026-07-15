@@ -32,56 +32,58 @@
             await supabase.auth.signOut();
             navigate("/");
         }        return (
-            <div>
-                <div className=" bg-gray-100 h-15 flex w-full justify-between items-center border-b-2 border-gray-300 shadow-md">
-                    <h2 className="text-2xl text-blue-300 p-6">DMS</h2>
-                    <div className="flex items-center">
-                    <h5 className="text-blue-300 justify-end">{currentEmail}</h5>
-                    <h5 className="text-blue-300 hover:text-blue-500 cursor-pointer justify-end p-6" onClick={handleLogout}>
-                        Logout
-                    </h5>
+    <div className="min-h-screen bg-gray-50">
+        <div className="bg-white h-16 flex w-full justify-between items-center border-b border-gray-200 shadow-sm px-6">
+            <h2 className="text-2xl font-bold text-teal-600">DMS</h2>
+            <div className="flex items-center gap-6">
+                <h5 className="text-gray-500 text-sm">{currentEmail}</h5>
+                <h5 className="text-gray-500 text-sm hover:text-red-400 cursor-pointer" onClick={handleLogout}>Logout</h5>
+            </div>
+        </div>
+
+        <div className="flex items-center justify-between px-8 py-6">
+            <h4 className="text-gray-700 text-2xl font-bold">Clients</h4>
+            <button onClick={() => navigate("/addclient")} className="bg-teal-500 text-white py-2 px-5 rounded-lg hover:bg-teal-600 font-medium">
+                + Add Client
+            </button>
+        </div>
+
+        <div className="px-8 mb-6">
+            <input type="search" placeholder="Search by name, email, phone number" className="bg-white border border-gray-200 w-full px-4 py-2 outline-none rounded-lg text-gray-600 focus:border-teal-500"/>
+        </div>
+
+        <div className="grid grid-cols-3 gap-6 px-8">
+            {currentMembers.map((member) => (
+                <div className="bg-white border border-gray-200 p-6 shadow-sm rounded-xl flex flex-col hover:border-teal-400 transition-all" key={member.id}>
+                    <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mb-3">
+                        <h3 className="text-teal-600 font-bold">{member.name[0] + member.name.split(' ').pop()[0]}</h3>
+                    </div>
+                    <h5 className="text-gray-700 font-semibold">{member.name}</h5>
+                    <div className="flex gap-2 pt-2 items-center">
+                        <Mail size={14} className="text-gray-400"/>
+                        <p className="text-gray-500 text-sm truncate">{member.email}</p>
+                    </div>
+                    <div className="flex gap-2 pt-2 items-center">
+                        <Phone size={14} className="text-gray-400"/>
+                        <p className="text-gray-500 text-sm">{member.phone}</p>
+                    </div>
+                    <div className="flex gap-2 pt-2 items-center">
+                        <User size={14} className="text-gray-400"/>
+                        <p className="text-gray-500 text-sm">Age: {member.age}</p>
+                    </div>
+                    <hr className="border-gray-100 mt-3"/>
+                    <div className="flex justify-between gap-2 pt-2 text-sm">
+                        <p className="text-gray-400">4 documents</p>
+                        <div className="flex items-center gap-1 text-teal-500 hover:text-teal-600 cursor-pointer" onClick={() => navigate(`/client/${member.id}`)}>
+                            <p>View</p>
+                            <ArrowRight size={14}/>
+                        </div>
                     </div>
                 </div>
-                <div className="flex items-center justify-between px-6 py-6">
-                    <h4 className="text-gray-500 text-3xl">Clients</h4>
-                    <button onClick={() => navigate("/addclient")} className="bg-blue-300 text-white py-2 px-4 rounded-xl hover:bg-blue-400">
-                        + Add Client
-                    </button>
-                </div>
-                <div>
-                    <input type="search" placeholder="Search by name,email,phone number" className="bg-gray-100 w-280 m-6 px-3 py-2 outline-none rounded-xl"></input>
-                </div>
-                <div className="grid grid-cols-3 gap-4 px-6">
-                {currentMembers.map((member)=>
-                (
-                    <div className="bg-blue-100 w-80 h-60 p-6 m-8 border-gray-500 shadow-md rounded-xl flex flex-col" key={member.id}>
-                        <h3 className="text-xl text-gray-600 font-bold">{member.name[0] + member.name.split(' ').pop()[0]}</h3>
-                        <h5 className="text-gray-500 pt-2">{member.name}</h5>
-                        <div className="flex gap-2 pt-2 items-center">
-                            <Mail size={16} className="text-gray-400 " />
-                            <p className="text-gray-500 text-sm truncate">Email: {member.email}</p>
-                        </div>
-                        <div className="flex gap-2 pt-2 items-center">
-                            <Phone size={16} className="text-gray-400" />
-                            <p className="text-gray-500">Phone: {member.phone}</p>
-                        </div>
-                        <div className="flex gap-2 pt-2 items-center">
-                            <User size={16} className="text-gray-400" />
-                            <p className="text-gray-500">Age: {member.age}</p>
-                        </div>
-                        <hr className="border-gray-300 mt-3" />
-                        <div className="flex justify-between gap-2 pt-2 text-gray-500 text-sm">
-                            <p>4 documents</p>
-                            <div className="flex items-center gap-1">
-                            <p onClick={() => navigate(`/client/${member.id}`)} className="text-gray-500 hover:text-blue-500 cursor-pointer justify-end">View</p>
-                            <ArrowRight size={16} className="text-gray-400 mt-1" />
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            </div>
-        );
+            ))}
+        </div>
+    </div>
+)
     }
     export default DashboardPage;
 
