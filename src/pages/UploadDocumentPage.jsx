@@ -21,6 +21,7 @@ function UploadDocumentPage()
         }
             const fileExt=file.name.split('.').pop()
             const fileName=`${id}_${Date.now()}.${fileExt}`
+            const { data: { user } } = await supabase.auth.getUser();
 
             const {error:uploadError}= await supabase.storage.from('documents').upload(fileName,file)
 
@@ -38,7 +39,8 @@ function UploadDocumentPage()
                     doc_name:docName,
                     doc_type:docType,
                     doc_number:docNumber,
-                    file_url:fileUrl
+                    file_url:fileUrl,
+                    user_id: user.id
                 }
             )
             console.log(linkError);

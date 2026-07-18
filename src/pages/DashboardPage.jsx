@@ -10,6 +10,21 @@
         const navigate = useNavigate();
         const [currentEmail,setCurrentEmail] = useState("");
         const [currentMembers,setCurrentMembers] = useState([]);
+        const [searchTab,setSearchTab]=useState("");
+        const filteredMembers=currentMembers.filter((member)=>
+            member.name.toLowerCase().includes(searchTab.toLowerCase()) || 
+            member.email.toLowerCase().includes(searchTab.toLowerCase())||
+            member.phone.toLowerCase().includes(searchTab))
+        // Search works by maintaining a searchQuery state that updates every time the user types in the search bar.
+// Instead of making a new Supabase call on every keystroke, we already have all members stored in currentMembers.
+// filteredMembers is a filtered copy of currentMembers that only keeps members whose name, email, or phone
+// contains the search text. When searchQuery is empty, filteredMembers matches all members and all cards show.
+// When the user types, React re-renders automatically and filteredMembers recalculates, showing only matching cards.
+
+// .filter() goes through every member in currentMembers and keeps only the ones where the condition is true.
+// .toLowerCase() converts both the member data and search query to lowercase so "Priya" matches "priya" or "PRIYA".
+// .includes() checks if the search text appears anywhere in the name, email, or phone.
+// If any one of the three conditions is true (name OR email OR phone matches), that member is kept in filteredMembers.
         useEffect(() => {
             async function getUserEmail(){
             const {data:{user}}= await supabase.auth.getUser();
@@ -49,11 +64,11 @@
         </div>
 
         <div className="px-8 mb-6">
-            <input type="search" placeholder="Search by name, email, phone number" className="bg-white border border-gray-200 w-full px-4 py-2 outline-none rounded-lg text-gray-600 focus:border-teal-500"/>
+            <input onChange={(e)=>setSearchTab(e.target.value)} value={searchTab} type="search" placeholder="Search by name, email, phone number" className="bg-white border border-gray-200 w-full px-4 py-2 outline-none rounded-lg text-gray-600 focus:border-teal-500"/>
         </div>
 
         <div className="grid grid-cols-3 gap-6 px-8">
-            {currentMembers.map((member) => (
+            {filteredMembers.map((member) => (
                 <div className="bg-white border border-gray-200 p-6 shadow-sm rounded-xl flex flex-col hover:border-teal-400 transition-all" key={member.id}>
                     <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mb-3">
                         <h3 className="text-teal-600 font-bold">{member.name[0] + member.name.split(' ').pop()[0]}</h3>

@@ -11,6 +11,13 @@
         //Since the member's info to be displayed at the top of the page and the documents list for each client is coming from the database
         // and affects the HTML, they are declared as states.
         const {id} = useParams();
+        async function handleDeleteDocument(docId,fileUrl)
+        {
+            const fileName=fileUrl.split('/').pop();
+            const {error:storageError}=await supabase.storage.from('documents').remove([fileName]);
+            const {error:databaseError}=await supabase.from('documents').delete().eq('id',docId);
+            setDocuments(documents.filter((doc)=>doc.id !==docId));
+        }
         useEffect(()=>
         {
             async function fetchMemberDetails()
@@ -89,7 +96,7 @@
                                 Download
                             </a>
                             <button 
-                                    className="flex items-center gap-1 text-gray-400 hover:text-red-500">
+                                    onClick={() => handleDeleteDocument(doc.id, doc.file_url)} className="flex items-center gap-1 text-gray-400 hover:text-red-500">
                                     <Trash2 size={14}/>
                                     Delete
                             </button>
