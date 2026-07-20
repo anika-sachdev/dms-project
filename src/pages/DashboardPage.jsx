@@ -2,7 +2,7 @@
     import { supabase } from '../lib/supabase';
     import { useNavigate } from 'react-router-dom';
     import {Mail,Phone,User,ArrowRight} from 'lucide-react';
-
+    import Sidebar from "../components/Sidebar"; 
     function DashboardPage()
     {
         // So we are using useEffect so that when the page loads, we fetch the email id of the user 
@@ -47,58 +47,80 @@
             await supabase.auth.signOut();
             navigate("/");
         }        return (
-    <div className="min-h-screen bg-gray-50">
-        <div className="bg-white h-16 flex w-full justify-between items-center border-b border-gray-200 shadow-sm px-6">
-            <h2 className="text-2xl font-bold text-teal-600">DMS</h2>
-            <div className="flex items-center gap-6">
-                <h5 className="text-gray-500 text-sm">{currentEmail}</h5>
-                <h5 className="text-gray-500 text-sm hover:text-red-400 cursor-pointer" onClick={handleLogout}>Logout</h5>
+    <div className="flex min-h-screen" style={{background:'#fafaf9'}}>
+        <Sidebar userEmail={currentEmail}/>
+        
+        <div className="flex-1 px-8 py-6">
+
+            <div className="flex items-center justify-between mb-6">
+                <h1 className="text-xl font-semibold text-stone-800">Clients</h1>
+                <button 
+                    onClick={() => navigate("/addclient")} 
+                    className="text-white text-sm px-4 py-2 rounded-lg font-medium"
+                    style={{background:'#d97706'}}>
+                    + Add Client
+                </button>
             </div>
-        </div>
 
-        <div className="flex items-center justify-between px-8 py-6">
-            <h4 className="text-gray-700 text-2xl font-bold">Clients</h4>
-            <button onClick={() => navigate("/addclient")} className="bg-teal-500 text-white py-2 px-5 rounded-lg hover:bg-teal-600 font-medium">
-                + Add Client
-            </button>
-        </div>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="bg-white border border-stone-200 rounded-lg p-4">
+                    <p className="text-stone-400 text-xs mb-1">Total Clients</p>
+                    <p className="text-2xl font-semibold text-stone-800">{currentMembers.length}</p>
+                </div>
+                <div className="bg-white border border-stone-200 rounded-lg p-4">
+                    <p className="text-stone-400 text-xs mb-1">Total Documents</p>
+                    <p className="text-2xl font-semibold text-stone-800">—</p>
+                </div>
+                <div className="bg-white border border-stone-200 rounded-lg p-4">
+                    <p className="text-stone-400 text-xs mb-1">Added This Month</p>
+                    <p className="text-2xl font-semibold text-stone-800">—</p>
+                </div>
+            </div>
 
-        <div className="px-8 mb-6">
-            <input onChange={(e)=>setSearchTab(e.target.value)} value={searchTab} type="search" placeholder="Search by name, email, phone number" className="bg-white border border-gray-200 w-full px-4 py-2 outline-none rounded-lg text-gray-600 focus:border-teal-500"/>
-        </div>
-
-        <div className="grid grid-cols-3 gap-6 px-8">
-            {filteredMembers.map((member) => (
-                <div className="bg-white border border-gray-200 p-6 shadow-sm rounded-xl flex flex-col hover:border-teal-400 transition-all" key={member.id}>
-                    <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mb-3">
-                        <h3 className="text-teal-600 font-bold">{member.name[0] + member.name.split(' ').pop()[0]}</h3>
-                    </div>
-                    <h5 className="text-gray-700 font-semibold">{member.name}</h5>
-                    <div className="flex gap-2 pt-2 items-center">
-                        <Mail size={14} className="text-gray-400"/>
-                        <p className="text-gray-500 text-sm truncate">{member.email}</p>
-                    </div>
-                    <div className="flex gap-2 pt-2 items-center">
-                        <Phone size={14} className="text-gray-400"/>
-                        <p className="text-gray-500 text-sm">{member.phone}</p>
-                    </div>
-                    <div className="flex gap-2 pt-2 items-center">
-                        <User size={14} className="text-gray-400"/>
-                        <p className="text-gray-500 text-sm">Age: {member.age}</p>
-                    </div>
-                    <hr className="border-gray-100 mt-3"/>
-                    <div className="flex justify-between gap-2 pt-2 text-sm">
-                        <p className="text-gray-400">4 documents</p>
-                        <div className="flex items-center gap-1 text-teal-500 hover:text-teal-600 cursor-pointer" onClick={() => navigate(`/client/${member.id}`)}>
-                            <p>View</p>
-                            <ArrowRight size={14}/>
+            <input 
+                onChange={(e) => setSearchTab(e.target.value)} 
+                value={searchTab}
+                type="search" 
+                placeholder="Search by name, email, phone number" 
+                className="w-full bg-white border border-stone-200 px-4 py-2 rounded-lg text-sm text-stone-600 outline-none mb-6"
+            />
+            <div className="grid grid-cols-2 gap-4">
+                {filteredMembers.map((member) => (
+                    <div key={member.id} className="bg-white border border-stone-200 rounded-xl p-5 hover:border-amber-400 transition-all">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold" style={{background:'#fef3c7', color:'#92400e'}}>
+                                {member.name[0] + member.name.split(' ').pop()[0]}
+                            </div>
+                            <p className="text-stone-800 font-medium text-sm">{member.name}</p>
+                        </div>
+                        <div className="flex items-center gap-2 mb-1.5">
+                            <Mail size={12} className="text-stone-400"/>
+                            <p className="text-stone-500 text-xs truncate">{member.email}</p>
+                        </div>
+                        <div className="flex items-center gap-2 mb-1.5">
+                            <Phone size={12} className="text-stone-400"/>
+                            <p className="text-stone-500 text-xs">{member.phone}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <User size={12} className="text-stone-400"/>
+                            <p className="text-stone-500 text-xs">Age: {member.age}</p>
+                        </div>
+                        <hr className="border-stone-100 my-3"/>
+                        <div className="flex justify-between items-center text-xs">
+                            <p className="text-stone-400">documents</p>
+                            <div 
+                                onClick={() => navigate(`/client/${member.id}`)}
+                                className="flex items-center gap-1 cursor-pointer font-medium"
+                                style={{color:'#d97706'}}>
+                                View <ArrowRight size={12}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     </div>
-)
+);
     }
     export default DashboardPage;
 

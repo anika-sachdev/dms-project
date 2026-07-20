@@ -46,7 +46,7 @@ function AddClientPage() {
             <input type="text" placeholder="Enter client email" className="bg-gray-50 border border-gray-200 px-3 py-2 outline-none rounded-lg text-gray-700 focus:border-teal-500" value={email} onChange={(e) => setEmail(e.target.value)}/>
 
             <label className="text-gray-600 font-medium text-sm">Phone Number:</label>
-            <input type="text" placeholder="Enter client phone number" className="bg-gray-50 border border-gray-200 px-3 py-2 outline-none rounded-lg text-gray-700 focus:border-teal-500" value={phone} onChange={(e) => setPhone(e.target.value)}/>
+            <input type="tel" pattern="[0-9]*" placeholder="Enter client phone number" className="bg-gray-50 border border-gray-200 px-3 py-2 outline-none rounded-lg text-gray-700 focus:border-teal-500" value={phone} onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}/>
 
             <button onClick={submitData} className="bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 font-medium mt-2">
                 Submit
