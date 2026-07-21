@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
-import { Users, FileText, LogOut } from 'lucide-react'
+import { Users, LogOut } from 'lucide-react'
 
 function Sidebar({ userEmail }) {
     const navigate = useNavigate()
@@ -12,14 +12,12 @@ function Sidebar({ userEmail }) {
 
     return (
         <div className="w-56 min-h-screen flex flex-col flex-shrink-0" style={{background:'#292524'}}>
-            
-            {/* Logo */}
+
             <div className="px-5 py-6 border-b border-stone-700">
                 <p className="text-stone-100 font-semibold text-sm">Anand Investment</p>
                 <p className="text-stone-500 text-xs mt-0.5">Document Portal</p>
             </div>
 
-            {/* Nav */}
             <div className="flex-1 px-3 py-4">
                 <p className="text-stone-600 text-xs uppercase tracking-widest px-2 mb-3">Main</p>
                 <div 
@@ -28,13 +26,8 @@ function Sidebar({ userEmail }) {
                     <Users size={15}/>
                     Clients
                 </div>
-                <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-stone-400 hover:text-stone-100 hover:bg-stone-700 cursor-pointer text-sm">
-                    <FileText size={15}/>
-                    Documents
-                </div>
             </div>
 
-            {/* Bottom */}
             <div className="px-3 py-4 border-t border-stone-700">
                 <p className="text-stone-500 text-xs px-3 mb-3 truncate">{userEmail}</p>
                 <div 

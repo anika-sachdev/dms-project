@@ -1,8 +1,8 @@
 import {useState,useEffect} from "react";
 import {useNavigate, useParams} from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { ArrowRight } from "lucide-react";
-
+import { ArrowRight,ArrowLeft } from "lucide-react";
+import Sidebar from "../components/Sidebar"; 
 function UploadDocumentPage()
 {
     const navigate=useNavigate();
@@ -17,6 +17,11 @@ function UploadDocumentPage()
         if (!docType || !docName || !file)
         {
             alert("Fields are empty");
+            return;
+        }
+        if(file.size>1*1024*1024)
+        {
+            alert("File size must not exceed 1MB");
             return;
         }
             const fileExt=file.name.split('.').pop()
@@ -50,41 +55,77 @@ function UploadDocumentPage()
             }
     }
     return (
-    <div className="min-h-screen bg-gray-50">
-        <div className="bg-white border-b border-gray-200 shadow-sm flex items-center justify-between px-8 py-4">
-            <div className="w-20"></div>
-            <h3 className="text-2xl font-bold text-gray-700">Upload Document</h3>
-            <div onClick={() => navigate(`/client/${id}`)} className="flex items-center gap-1 text-gray-400 hover:text-teal-500 cursor-pointer w-20 justify-end">
-                <p className="text-sm">Back</p>
-                <ArrowRight size={16}/>
+    <div className="flex min-h-screen" style={{background:'#fafaf9'}}>
+        <Sidebar userEmail={""} />
+
+        <div className="flex-1 px-8 py-6">
+            <div className="flex items-center gap-3 mb-6">
+                <div 
+                    onClick={() => navigate(`/client/${id}`)}
+                    className="flex items-center gap-1 text-stone-400 hover:text-stone-600 cursor-pointer text-sm">
+                    <ArrowLeft size={14}/>
+                    Back
+                </div>
+                <span className="text-stone-300">|</span>
+                <h1 className="text-xl font-semibold text-stone-800">Upload Document</h1>
             </div>
-        </div>
 
-        <div className="bg-white border border-gray-200 flex flex-col w-2/4 m-auto mt-8 p-8 rounded-xl shadow-sm gap-4">
-            <label className="text-gray-600 font-medium text-sm">Document Name:</label>
-            <input type="text" placeholder="e.g. Rahul Aadhaar Front" className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg outline-none focus:border-teal-500 text-gray-700" value={docName} onChange={(e) => setDocName(e.target.value)}/>
+            <div className="bg-white border border-stone-200 rounded-xl p-6 max-w-lg mx-auto flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                    <label className="text-stone-600 text-xs font-medium">Document Name</label>
+                    <input 
+                        type="text" 
+                        placeholder="e.g. Aadhaar Front" 
+                        className="bg-stone-50 border border-stone-200 px-3 py-2 rounded-lg outline-none text-sm text-stone-700 focus:border-amber-400" 
+                        value={docName} 
+                        onChange={(e) => setDocName(e.target.value)}
+                    />
+                </div>
 
-            <label className="text-gray-600 font-medium text-sm">Document Number:</label>
-            <input type="text" placeholder="Enter Aadhaar number, PAN number etc." className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg outline-none focus:border-teal-500 text-gray-700" value={docNumber} onChange={(e) => setDocNumber(e.target.value)}/>
+                <div className="flex flex-col gap-1">
+                    <label className="text-stone-600 text-xs font-medium">Document Number <span className="text-stone-400 font-normal">(optional)</span></label>
+                    <input 
+                        type="text" 
+                        placeholder="Aadhaar number, PAN number etc." 
+                        className="bg-stone-50 border border-stone-200 px-3 py-2 rounded-lg outline-none text-sm text-stone-700 focus:border-amber-400" 
+                        value={docNumber} 
+                        onChange={(e) => setDocNumber(e.target.value)}
+                    />
+                </div>
 
-            <label className="text-gray-600 font-medium text-sm">Document Type:</label>
-            <select className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg outline-none focus:border-teal-500 text-gray-700" value={docType} onChange={(e) => setDocType(e.target.value)}>
-                <option value="">Select type</option>
-                <option value="Aadhaar">Aadhaar</option>
-                <option value="PAN">PAN</option>
-                <option value="Driving License">Driving License</option>
-                <option value="Voter ID">Voter ID</option>
-                <option value="Photo">Photo</option>
-                <option value="Signature">Signature</option>
-                <option value="Other">Other</option>
-            </select>
+                <div className="flex flex-col gap-1">
+                    <label className="text-stone-600 text-xs font-medium">Document Type</label>
+                    <select 
+                        className="bg-stone-50 border border-stone-200 px-3 py-2 rounded-lg outline-none text-sm text-stone-700 focus:border-amber-400" 
+                        value={docType} 
+                        onChange={(e) => setDocType(e.target.value)}>
+                        <option value="">Select type</option>
+                        <option value="Aadhaar">Aadhaar</option>
+                        <option value="PAN">PAN</option>
+                        <option value="Driving License">Driving License</option>
+                        <option value="Voter ID">Voter ID</option>
+                        <option value="Photo">Photo</option>
+                        <option value="Signature">Signature</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
 
-            <label className="text-gray-600 font-medium text-sm">Choose File:</label>
-            <input type="file" className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg text-gray-600" onChange={(e) => setFile(e.target.files[0])}/>
+                <div className="flex flex-col gap-1">
+                    <label className="text-stone-600 text-xs font-medium">Choose File</label>
+                    <input 
+                        type="file" 
+                        className="bg-stone-50 border border-stone-200 px-3 py-2 rounded-lg text-sm text-stone-600" 
+                        onChange={(e) => setFile(e.target.files[0])}
+                    />
+                </div>
 
-            <button onClick={handleUpload} className="bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 font-medium mt-2">
-                Upload
-            </button>
+                <button 
+                    onClick={handleUpload} 
+                    className="text-white text-sm py-2 rounded-lg font-medium mt-1"
+                    style={{background:'#d97706'}}>
+                    Upload Document
+                </button>
+            </div>
         </div>
     </div>
 )
